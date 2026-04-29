@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMIÈRE SKIN | 水光肌、私史上、最高の透明感。</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose: #E8436A;
+  --rose-light: #FF6B8A;
+  --rose-pale: #FFE8EE;
+  --rose-ultra: #FFF5F7;
+  --blush: #F9C8D5;
+  --nude: #F2E0E4;
+  --charcoal: #1A1016;
+  --gray-dark: #3D2D35;
+  --gray-mid: #8A7880;
+  --gold: #D4A853;
+  --white: #FFFFFF;
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Noto Sans JP', sans-serif;
+  --font-en: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); color: var(--charcoal); background: var(--white); overflow-x: hidden; }
+
+.cursor { width:10px; height:10px; background:var(--rose); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; transition:transform 0.15s ease; mix-blend-mode:multiply; }
+.cursor-follower { width:36px; height:36px; border:1.5px solid var(--rose-light); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transition:transform 0.4s ease, width 0.3s, height 0.3s, opacity 0.3s; opacity:0.6; }
+
+#loader { position:fixed; inset:0; background:var(--charcoal); z-index:9000; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:20px; transition:opacity 0.6s ease, visibility 0.6s; }
+#loader.hide { opacity:0; visibility:hidden; }
+.loader-logo { font-family:var(--font-display); font-size:32px; color:white; letter-spacing:8px; font-weight:400; animation:shimmer 2s ease infinite; }
+@keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.loader-bar { width:180px; height:1px; background:rgba(255,255,255,0.15); position:relative; overflow:hidden; }
+.loader-bar::after { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:var(--rose-light); animation:load 1.4s ease forwards; }
+@keyframes load { to{left:0} }
+.loader-pct { font-family:var(--font-en); font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:3px; }
+
+header { position:fixed; top:0; left:0; right:0; z-index:500; padding:0 56px; height:72px; display:flex; align-items:center; justify-content:space-between; transition:background 0.5s, box-shadow 0.4s; }
+header.scrolled { background:rgba(255,255,255,0.94); backdrop-filter:blur(16px); box-shadow:0 1px 0 rgba(232,67,106,0.1); }
+.logo { font-family:var(--font-display); font-size:20px; font-weight:400; letter-spacing:5px; color:var(--white); text-decoration:none; transition:color 0.4s; }
+header.scrolled .logo { color:var(--charcoal); }
+.logo-sub { display:block; font-family:var(--font-en); font-size:8px; letter-spacing:4px; font-weight:300; opacity:0.6; margin-top:-2px; }
+nav { display:flex; gap:36px; align-items:center; }
+nav a { font-family:var(--font-en); font-size:12px; letter-spacing:2px; color:rgba(255,255,255,0.8); text-decoration:none; font-weight:400; transition:color 0.3s; position:relative; }
+nav a::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--rose-light); transition:width 0.3s; }
+nav a:hover::after { width:100%; }
+header.scrolled nav a { color:var(--gray-mid); }
+header.scrolled nav a:hover { color:var(--rose); }
+.btn-nav { font-family:var(--font-en); font-size:11px; letter-spacing:2px; color:white; border:1px solid rgba(255,255,255,0.5); padding:9px 24px; border-radius:30px; text-decoration:none; transition:all 0.3s; font-weight:400; }
+.btn-nav:hover { background:var(--rose); border-color:var(--rose); }
+header.scrolled .btn-nav { color:var(--rose); border-color:var(--rose); }
+header.scrolled .btn-nav:hover { background:var(--rose); color:white; }
+
+.hero { min-height:100vh; background:var(--charcoal); display:flex; align-items:center; position:relative; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(232,67,106,0.18) 0%, transparent 60%), radial-gradient(ellipse 50% 80% at 20% 80%, rgba(255,107,138,0.1) 0%, transparent 50%), var(--charcoal); }
+.orb { position:absolute; border-radius:50%; filter:blur(60px); pointer-events:none; animation:orbFloat 8s ease-in-out infinite; }
+.orb-1 { width:500px; height:500px; background:rgba(232,67,106,0.12); top:-100px; right:-100px; }
+.orb-2 { width:300px; height:300px; background:rgba(255,107,138,0.08); bottom:50px; left:10%; animation-delay:-3s; }
+.orb-3 { width:200px; height:200px; background:rgba(212,168,83,0.06); top:30%; left:40%; animation-delay:-5s; }
+@keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-20px) scale(1.05)} 66%{transform:translate(-20px,15px) scale(0.95)} }
+
+.hero-inner { position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; width:100%; min-height:100vh; }
+.hero-left { display:flex; flex-direction:column; justify-content:center; padding:120px 60px 80px 80px; }
+.hero-eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:28px; opacity:0; transform:translateY(20px); animation:fadeUpIn 0.8s ease 1.5s forwards; }
+.hero-eyebrow-line { width:32px; height:1px; background:var(--rose-light); }
+.hero-eyebrow span { font-family:var(--font-en); font-size:11px; letter-spacing:3px; color:var(--rose-light); font-weight:400; text-transform:uppercase; }
+.hero-h1 { font-family:var(--font-display); font-size:clamp(42px,5vw,64px); font-weight:700; line-height:1.2; color:var(--white); margin-bottom:8px; opacity:0; transform:translateY(30px); animation:fadeUpIn 0.9s ease 1.7s forwards; }
+.hero-h1 em { font-style:italic; color:var(--rose-light); font-weight:400; }
+.hero-h1-en { font-family:var(--font-display); font-size:clamp(13px,1.4vw,17px); font-weight:400; font-style:italic; color:rgba(255,255,255,0.35); letter-spacing:3px; margin-bottom:28px; opacity:0; animation:fadeUpIn 0.8s ease 1.9s forwards; }
+.hero-desc { font-size:14px; line-height:2; color:rgba(255,255,255,0.55); font-weight:300; max-width:380px; margin-bottom:40px; opacity:0; animation:fadeUpIn 0.8s ease 2.1s forwards; }
+.hero-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:44px; opacity:0; animation:fadeUpIn 0.8s ease 2.2s forwards; }
+.hero-tag { font-family:var(--font-en); font-size:10px; letter-spacing:1px; color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.15); padding:5px 14px; border-radius:20px; transition:all 0.3s; }
+.hero-tag:hover { border-color:var(--rose-light); color:var(--rose-light); }
+.hero-btns { display:flex; gap:20px; align-items:center; opacity:0; animation:fadeUpIn 0.8s ease 2.3s forwards; }
+.btn-hero-primary { display:inline-flex; align-items:center; gap:10px; background:var(--rose); color:white; padding:16px 36px; border-radius:40px; font-family:var(--font-en); font-size:13px; letter-spacing:1.5px; text-decoration:none; font-weight:500; transition:all 0.35s; position:relative; overflow:hidden; }
+.btn-hero-primary:hover { transform:translateY(-3px); box-shadow:0 16px 40px rgba(232,67,106,0.45); }
+.btn-hero-ghost { font-family:var(--font-en); font-size:12px; letter-spacing:1.5px; color:rgba(255,255,255,0.5); text-decoration:none; transition:color 0.3s; }
+.btn-hero-ghost:hover { color:var(--rose-light); }
+.hero-awards { display:flex; gap:28px; margin-top:60px; padding-top:40px; border-top:1px solid rgba(255,255,255,0.08); opacity:0; animation:fadeUpIn 0.8s ease 2.5s forwards; }
+.award-num { font-family:var(--font-display); font-size:28px; font-weight:700; color:var(--gold); line-height:1; }
+.award-label { font-family:var(--font-en); font-size:9px; letter-spacing:1.5px; color:rgba(255,255,255,0.35); margin-top:4px; text-transform:uppercase; }
+
+.hero-right { position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.hero-circle-wrap { position:relative; z-index:2; opacity:0; animation:scaleIn 1s ease 1.8s forwards; }
+@keyframes scaleIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+.hero-ring { width:380px; height:380px; border-radius:50%; border:1px solid rgba(232,67,106,0.2); display:flex; align-items:center; justify-content:center; position:relative; animation:rotateSlow 20s linear infinite; }
+@keyframes rotateSlow { to{transform:rotate(360deg)} }
+.hero-ring-inner { width:300px; height:300px; border-radius:50%; border:1px solid rgba(232,67,106,0.15); display:flex; align-items:center; justify-content:center; animation:rotateSlow 15s linear infinite reverse; }
+.hero-core { width:220px; height:220px; border-radius:50%; background:linear-gradient(135deg,rgba(232,67,106,0.25),rgba(255,107,138,0.15)); border:1px solid rgba(232,67,106,0.3); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:4px; animation:rotateSlow 15s linear infinite; backdrop-filter:blur(10px); }
+.hero-core-num { font-family:var(--font-display); font-size:48px; font-weight:700; color:white; line-height:1; }
+.hero-core-label { font-family:var(--font-en); font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.6); text-transform:uppercase; }
+.orbit-dot { position:absolute; width:8px; height:8px; background:var(--rose); border-radius:50%; box-shadow:0 0 12px var(--rose); }
+.orbit-dot-1 { top:-4px; left:50%; transform:translateX(-50%); }
+.orbit-dot-2 { bottom:-4px; right:20%; }
+.orbit-dot-3 { top:30%; left:-4px; }
+.hero-float-card { position:absolute; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(12px); border-radius:14px; padding:14px 18px; z-index:3; animation:floatCard 4s ease-in-out infinite; }
+@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.hero-float-card.card-1 { top:20%; left:5%; animation-delay:0s; }
+.hero-float-card.card-2 { bottom:22%; right:5%; animation-delay:-2s; }
+.float-card-label { font-family:var(--font-en); font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-bottom:4px; }
+.float-card-value { font-family:var(--font-display); font-size:22px; font-weight:700; color:white; line-height:1; }
+.float-card-sub { font-size:10px; color:rgba(255,255,255,0.4); font-family:var(--font-en); margin-top:2px; }
+.float-stars { color:var(--gold); font-size:12px; letter-spacing:1px; }
+
+.scroll-indicator { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:8px; opacity:0; animation:fadeUpIn 0.8s ease 3s forwards; }
+.scroll-line { width:1px; height:50px; background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent); position:relative; overflow:hidden; }
+.scroll-line::after { content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background:var(--rose-light); animation:scrollDown 2s ease-in-out infinite; }
+@keyframes scrollDown { 0%{top:-100%} 100%{top:100%} }
+.scroll-text { font-family:var(--font-en); font-size:9px; letter-spacing:3px; color:rgba(255,255,255,0.3); text-transform:uppercase; writing-mode:vertical-rl; }
+
+@keyframes fadeUpIn { to{opacity:1;transform:translateY(0)} }
+
+.marquee-section { background:var(--rose); padding:14px 0; overflow:hidden; }
+.marquee-track { display:flex; animation:marquee 20s linear infinite; white-space:nowrap; }
+.marquee-item { display:inline-flex; align-items:center; gap:20px; padding:0 24px; font-family:var(--font-en); font-size:11px; letter-spacing:3px; color:rgba(255,255,255,0.85); text-transform:uppercase; font-weight:400; flex-shrink:0; }
+.marquee-dot { width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.4); flex-shrink:0; }
+@keyframes marquee { to{transform:translateX(-50%)} }
+
+.reveal { opacity:0; transform:translateY(40px); transition:opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1{transition-delay:0.1s} .reveal-delay-2{transition-delay:0.2s} .reveal-delay-3{transition-delay:0.3s} .reveal-delay-4{transition-delay:0.4s} .reveal-delay-5{transition-delay:0.5s}
+
+section.pad { padding:100px 80px; }
+.sec-label { font-family:var(--font-en); font-size:10px; letter-spacing:4px; color:var(--rose); text-transform:uppercase; margin-bottom:14px; font-weight:500; display:flex; align-items:center; gap:12px; }
+.sec-label::before { content:''; width:24px; height:1px; background:var(--rose); }
+.sec-title { font-family:var(--font-display); font-size:clamp(28px,3.5vw,44px); font-weight:700; line-height:1.25; color:var(--charcoal); margin-bottom:16px; letter-spacing:-0.5px; }
+.sec-title em { font-style:italic; color:var(--rose); }
+.sec-sub { font-size:14px; color:var(--gray-mid); line-height:2; font-weight:300; max-width:480px; }
+
+.concern { background:var(--rose-ultra); }
+.concern-layout { display:grid; grid-template-columns:380px 1fr; gap:80px; align-items:start; }
+.concern-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.concern-card { background:white; border-radius:20px; padding:28px 22px; border:1px solid transparent; transition:all 0.4s; position:relative; overflow:hidden; }
+.concern-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--rose); transition:height 0.4s; }
+.concern-card:hover { border-color:var(--rose-pale); transform:translateY(-4px); box-shadow:0 16px 40px rgba(232,67,106,0.1); }
+.concern-card:hover::before { height:100%; }
+.concern-emoji { font-size:28px; margin-bottom:12px; display:block; }
+.concern-card h3 { font-size:13px; font-weight:700; margin-bottom:6px; line-height:1.5; }
+.concern-card p { font-size:11px; color:var(--gray-mid); line-height:1.8; font-weight:300; }
+.concern-answer { margin-top:40px; background:linear-gradient(135deg,var(--rose),#C4305A); border-radius:24px; padding:36px; color:white; }
+.concern-answer h3 { font-family:var(--font-display); font-size:22px; font-weight:700; font-style:italic; margin-bottom:12px; line-height:1.4; }
+.concern-answer p { font-size:13px; line-height:1.9; opacity:0.8; font-weight:300; margin-bottom:24px; }
+
+.products { background:var(--white); }
+.products-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; }
+.products-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.product-card { border-radius:24px; overflow:hidden; background:var(--rose-ultra); border:1px solid transparent; transition:all 0.4s; cursor:pointer; }
+.product-card:hover { border-color:var(--blush); transform:translateY(-10px); box-shadow:0 24px 60px rgba(232,67,106,0.15); }
+.product-img { height:220px; display:flex; align-items:center; justify-content:center; font-size:52px; position:relative; transition:transform 0.4s; }
+.product-card:hover .product-img { transform:scale(1.03); }
+.product-img-1{background:linear-gradient(145deg,#FFDDE6,#FFB8CC)} .product-img-2{background:linear-gradient(145deg,#D4EEF9,#A8D8F0)} .product-img-3{background:linear-gradient(145deg,#E8D4F9,#C8A8F0)} .product-img-4{background:linear-gradient(145deg,#D4F4D4,#A8E0A8)}
+.product-badge-wrap { position:absolute; top:14px; left:14px; }
+.product-badge { display:inline-block; background:var(--rose); color:white; font-family:var(--font-en); font-size:9px; letter-spacing:1.5px; padding:4px 10px; border-radius:20px; font-weight:500; text-transform:uppercase; }
+.product-badge.gold{background:var(--gold)}
+.product-body { padding:22px 20px 24px; }
+.product-name { font-size:15px; font-weight:700; margin-bottom:6px; }
+.product-desc { font-size:11px; color:var(--gray-mid); line-height:1.8; font-weight:300; margin-bottom:14px; }
+.product-chips { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.chip { font-family:var(--font-en); font-size:9px; letter-spacing:1px; color:var(--rose); background:var(--rose-pale); padding:3px 10px; border-radius:20px; text-transform:uppercase; }
+.product-price { font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--rose); }
+.product-price-tax { font-size:10px; color:var(--gray-mid); font-weight:300; margin-left:4px; }
+.product-rating { font-size:11px; color:var(--gold); margin-top:6px; letter-spacing:1px; }
+
+.reviews { background:var(--charcoal); }
+.reviews-inner { display:grid; grid-template-columns:280px 1fr; gap:80px; align-items:start; }
+.reviews-left { position:sticky; top:100px; }
+.reviews .sec-label { color:var(--rose-light); }
+.reviews .sec-label::before { background:var(--rose-light); }
+.reviews .sec-title { color:white; }
+.reviews .sec-sub { color:rgba(255,255,255,0.4); }
+.rating-block { margin-top:40px; padding:28px; border:1px solid rgba(255,255,255,0.08); border-radius:20px; background:rgba(255,255,255,0.03); }
+.rating-num { font-family:var(--font-display); font-size:72px; font-weight:700; color:white; line-height:1; }
+.rating-stars-big { font-size:20px; color:var(--gold); letter-spacing:3px; margin:8px 0; }
+.rating-count { font-family:var(--font-en); font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase; }
+.reviews-grid { display:flex; flex-direction:column; gap:16px; }
+.review-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:28px; transition:all 0.4s; }
+.review-card:hover { background:rgba(232,67,106,0.06); border-color:rgba(232,67,106,0.2); transform:translateX(6px); }
+.review-top { display:flex; align-items:center; gap:14px; margin-bottom:14px; }
+.review-avatar { width:44px; height:44px; border-radius:50%; font-size:20px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.av1{background:linear-gradient(135deg,#FFDDE6,#FFB8CC)} .av2{background:linear-gradient(135deg,#D4EEF9,#A8D8F0)} .av3{background:linear-gradient(135deg,#E8D4F9,#C8A8F0)} .av4{background:linear-gradient(135deg,#D4F4D4,#A8E0A8)}
+.review-info-name { font-size:13px; font-weight:700; color:white; margin-bottom:2px; }
+.review-info-handle { font-family:var(--font-en); font-size:11px; color:rgba(255,255,255,0.3); }
+.review-stars { color:var(--gold); font-size:13px; letter-spacing:2px; margin-bottom:12px; }
+.review-text { font-size:13px; line-height:1.9; color:rgba(255,255,255,0.6); font-weight:300; }
+.review-tag { display:inline-block; margin-top:14px; font-family:var(--font-en); font-size:9px; letter-spacing:1.5px; color:var(--rose-light); background:rgba(232,67,106,0.1); padding:4px 12px; border-radius:20px; text-transform:uppercase; }
+
+.ingredients { background:var(--white); }
+.ingredients-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.ingredient-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.ingredient-card { background:var(--rose-ultra); border:1px solid var(--nude); border-radius:20px; padding:28px 22px; transition:all 0.4s; position:relative; overflow:hidden; }
+.ingredient-card::after { content:''; position:absolute; bottom:0; right:0; width:80px; height:80px; border-radius:50%; background:var(--rose-pale); transform:translate(30px,30px); transition:transform 0.4s; }
+.ingredient-card:hover { border-color:var(--blush); box-shadow:0 12px 40px rgba(232,67,106,0.1); transform:translateY(-4px); }
+.ingredient-card:hover::after { transform:translate(20px,20px) scale(1.3); }
+.ingredient-icon { font-size:32px; margin-bottom:14px; display:block; position:relative; z-index:1; }
+.ingredient-card h4 { font-size:14px; font-weight:700; color:var(--rose); margin-bottom:8px; position:relative; z-index:1; }
+.ingredient-card p { font-size:11px; color:var(--gray-mid); line-height:1.8; font-weight:300; position:relative; z-index:1; }
+.trust-section { margin-top:36px; display:flex; flex-direction:column; gap:12px; }
+.trust-item { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--rose-ultra); border-radius:12px; border:1px solid var(--nude); font-size:13px; font-weight:400; transition:all 0.3s; }
+.trust-item:hover { border-color:var(--blush); background:var(--rose-pale); }
+.trust-check { width:24px; height:24px; border-radius:50%; background:var(--rose); color:white; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+
+.cta-section { padding:0; background:var(--charcoal); position:relative; overflow:hidden; }
+.cta-bg { position:absolute; inset:0; background: radial-gradient(ellipse 60% 80% at 80% 50%,rgba(232,67,106,0.15),transparent), radial-gradient(ellipse 40% 60% at 10% 80%,rgba(255,107,138,0.08),transparent); }
+.cta-inner { position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; min-height:640px; }
+.cta-left { display:flex; flex-direction:column; justify-content:center; padding:80px; }
+.cta-right { display:flex; align-items:center; justify-content:center; padding:60px; border-left:1px solid rgba(255,255,255,0.06); }
+.cta-section .sec-label { color:var(--rose-light); }
+.cta-section .sec-label::before { background:var(--rose-light); }
+.cta-section .sec-title { color:white; }
+.cta-section .sec-sub { color:rgba(255,255,255,0.45); margin-bottom:40px; }
+.cta-perks { display:flex; flex-direction:column; gap:12px; margin-bottom:40px; }
+.cta-perk { display:flex; align-items:center; gap:12px; font-size:13px; color:rgba(255,255,255,0.7); font-weight:300; }
+.perk-icon { width:32px; height:32px; border-radius:50%; background:rgba(232,67,106,0.15); border:1px solid rgba(232,67,106,0.3); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+.price-card { background:white; border-radius:28px; padding:44px; width:100%; max-width:360px; box-shadow:0 30px 80px rgba(0,0,0,0.3); position:relative; overflow:hidden; }
+.price-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--rose),var(--rose-light)); }
+.price-card-label { font-family:var(--font-en); font-size:9px; letter-spacing:3px; color:var(--rose); text-transform:uppercase; margin-bottom:20px; font-weight:500; }
+.price-original { font-size:13px; color:var(--gray-mid); text-decoration:line-through; margin-bottom:6px; }
+.price-badge { display:inline-block; background:var(--rose); color:white; font-family:var(--font-en); font-size:11px; padding:4px 14px; border-radius:20px; letter-spacing:1px; margin-bottom:12px; font-weight:500; }
+.price-main { font-family:var(--font-display); font-size:60px; font-weight:700; color:var(--charcoal); line-height:1; margin-bottom:4px; }
+.price-main small { font-size:22px; font-weight:400; font-family:var(--font-en); }
+.price-tax { font-size:11px; color:var(--gray-mid); margin-bottom:28px; font-weight:300; }
+.price-perks { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; padding:18px; background:var(--rose-ultra); border-radius:14px; }
+.price-perk { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--gray-dark); }
+.price-perk::before { content:'✓'; color:var(--rose); font-weight:700; font-size:13px; }
+.btn-cta { display:block; width:100%; background:linear-gradient(135deg,var(--rose),#C4305A); color:white; border:none; padding:18px; border-radius:40px; font-family:var(--font-en); font-size:13px; letter-spacing:2px; cursor:pointer; font-weight:500; transition:all 0.3s; text-align:center; text-decoration:none; }
+.btn-cta:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(232,67,106,0.45); }
+.price-deadline { text-align:center; margin-top:14px; font-size:10px; color:var(--gray-mid); letter-spacing:0.5px; }
+
+footer { background:#0F0A0D; padding:72px 80px 40px; }
+.footer-top { display:grid; grid-template-columns:240px 1fr; gap:80px; margin-bottom:60px; }
+.footer-logo { font-family:var(--font-display); font-size:22px; font-weight:400; color:rgba(255,255,255,0.85); letter-spacing:5px; margin-bottom:6px; }
+.footer-logo-sub { font-family:var(--font-en); font-size:8px; letter-spacing:3px; color:rgba(255,255,255,0.25); text-transform:uppercase; }
+.footer-desc { font-size:12px; color:rgba(255,255,255,0.3); line-height:1.9; margin-top:16px; font-weight:300; }
+.footer-links-wrap { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
+.footer-col h4 { font-family:var(--font-en); font-size:10px; letter-spacing:3px; color:rgba(255,255,255,0.5); text-transform:uppercase; margin-bottom:20px; font-weight:500; }
+.footer-col a { display:block; font-size:12px; color:rgba(255,255,255,0.25); text-decoration:none; margin-bottom:12px; font-weight:300; transition:color 0.3s; }
+.footer-col a:hover { color:var(--rose-light); }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.06); padding-top:28px; display:flex; justify-content:space-between; align-items:center; font-family:var(--font-en); font-size:10px; color:rgba(255,255,255,0.2); letter-spacing:1px; }
+.footer-sns { display:flex; gap:20px; }
+.footer-sns a { color:rgba(255,255,255,0.25); text-decoration:none; font-size:10px; letter-spacing:1px; transition:color 0.3s; }
+.footer-sns a:hover { color:var(--rose-light); }
+
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr} .hero-right{display:none} .hero-left{padding:120px 40px 80px}
+  .concern-layout{grid-template-columns:1fr;gap:48px} .products-grid{grid-template-columns:repeat(2,1fr)}
+  .reviews-inner{grid-template-columns:1fr;gap:40px} .reviews-left{position:static}
+  .ingredients-layout{grid-template-columns:1fr;gap:48px} .cta-inner{grid-template-columns:1fr}
+  .cta-right{border-left:none;border-top:1px solid rgba(255,255,255,0.06)} .footer-top{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:768px){
+  section.pad{padding:72px 24px} header{padding:0 24px} nav{display:none} .hero-left{padding:100px 24px 60px}
+  .products-grid{grid-template-columns:1fr} .ingredient-grid{grid-template-columns:1fr}
+  .cta-left{padding:60px 24px} .cta-right{padding:40px 24px} footer{padding:56px 24px 32px}
+  .footer-links-wrap{grid-template-columns:repeat(2,1fr)} .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<div id="loader">
+  <div class="loader-logo">LUMIÈRE</div>
+  <div class="loader-bar"></div>
+  <div class="loader-pct" id="loaderPct">0%</div>
+</div>
+
+<header id="header">
+  <a href="#" class="logo">LUMIÈRE SKIN<span class="logo-sub">Premium Korean Skincare</span></a>
+  <nav>
+    <a href="#concern">お悩み</a>
+    <a href="#products">商品</a>
+    <a href="#reviews">口コミ</a>
+    <a href="#ingredients">成分</a>
+    <a href="#cta" class="btn-nav">今すぐ購入</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span>SNS累計口コミ 20万件突破</span></div>
+      <h1 class="hero-h1">水光肌、<em>私史上、</em><br>最高の透明感。</h1>
+      <p class="hero-h1-en">The Highest Transparency in My Life</p>
+      <p class="hero-desc">韓国発プレミアムスキンケア。肌科学に基づいた厳選成分と、毎日使いたくなるテクスチャーで、あなたの素肌を最高の輝きへ導きます。</p>
+      <div class="hero-tags">
+        <span class="hero-tag">#水光肌</span><span class="hero-tag">#ツヤ肌</span><span class="hero-tag">#韓国コスメ</span><span class="hero-tag">#透明感ケア</span><span class="hero-tag">#敏感肌OK</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#cta" class="btn-hero-primary">初回限定セットを購入 →</a>
+        <a href="#products" class="btn-hero-ghost">商品を見る ↓</a>
+      </div>
+      <div class="hero-awards">
+        <div><div class="award-num">1位</div><div class="award-label">LIPS ベストコスメ</div></div>
+        <div><div class="award-num">1位</div><div class="award-label">@cosme スキンケア</div></div>
+        <div><div class="award-num">4.8★</div><div class="award-label">総合評価</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-float-card card-1">
+        <div class="float-card-label">Review</div>
+        <div class="float-card-value">20万+</div>
+        <div class="float-stars">★★★★★</div>
+        <div class="float-card-sub">SNS口コミ件数</div>
+      </div>
+      <div class="hero-circle-wrap">
+        <div class="hero-ring">
+          <div class="orbit-dot orbit-dot-1"></div><div class="orbit-dot orbit-dot-2"></div><div class="orbit-dot orbit-dot-3"></div>
+          <div class="hero-ring-inner">
+            <div class="hero-core">
+              <div class="hero-core-label">初回限定</div>
+              <div class="hero-core-num">50%</div>
+              <div class="hero-core-label">OFF</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-float-card card-2">
+        <div class="float-card-label">Price</div>
+        <div class="float-card-value">¥3,980</div>
+        <div class="float-card-sub">通常¥7,960 → 半額</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-text">scroll</div>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">水光肌ケア<span class="marquee-dot"></span></span>
+    <span class="marquee-item">20万件の口コミ<span class="marquee-dot"></span></span>
+    <span class="marquee-item">初回50%OFF<span class="marquee-dot"></span></span>
+    <span class="marquee-item">送料無料<span class="marquee-dot"></span></span>
+    <span class="marquee-item">30日間返金保証<span class="marquee-dot"></span></span>
+    <span class="marquee-item">韓国コスメブランド<span class="marquee-dot"></span></span>
+    <span class="marquee-item">敏感肌OK<span class="marquee-dot"></span></span>
+    <span class="marquee-item">パラベンフリー<span class="marquee-dot"></span></span>
+    <span class="marquee-item">水光肌ケア<span class="marquee-dot"></span></span>
+    <span class="marquee-item">20万件の口コミ<span class="marquee-dot"></span></span>
+    <span class="marquee-item">初回50%OFF<span class="marquee-dot"></span></span>
+    <span class="marquee-item">送料無料<span class="marquee-dot"></span></span>
+    <span class="marquee-item">30日間返金保証<span class="marquee-dot"></span></span>
+    <span class="marquee-item">韓国コスメブランド<span class="marquee-dot"></span></span>
+    <span class="marquee-item">敏感肌OK<span class="marquee-dot"></span></span>
+    <span class="marquee-item">パラベンフリー<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<section class="concern pad" id="concern">
+  <div class="concern-layout">
+    <div class="reveal">
+      <div class="sec-label">Skin Concern</div>
+      <h2 class="sec-title">こんなお悩み、<br><em>ありませんか？</em></h2>
+      <p class="sec-sub">日々のスキンケアで解決しきれない肌悩みに、科学的にアプローチします。</p>
+      <div class="concern-answer reveal reveal-delay-1">
+        <h3>そのお悩み、韓国発の水光スキンケアで解決できます！</h3>
+        <p>肌科学の最前線から生まれたLUMIÈRE SKINは、あなたの肌を内側から変えます。</p>
+        <a href="#cta" class="btn-hero-primary">今すぐ試す →</a>
+      </div>
+    </div>
+    <div class="concern-grid">
+      <div class="concern-card reveal reveal-delay-1"><span class="concern-emoji">💧</span><h3>乾燥して肌がカサつく</h3><p>季節の変わり目に肌がつっぱり、粉吹きが気になる方に</p></div>
+      <div class="concern-card reveal reveal-delay-2"><span class="concern-emoji">🔍</span><h3>毛穴の開きや黒ずみ</h3><p>毛穴が目立ち、肌の凹凸が気になっている方に</p></div>
+      <div class="concern-card reveal reveal-delay-3"><span class="concern-emoji">✨</span><h3>くすみで顔色が冴えない</h3><p>透明感を失い、くすんだ肌色が悩みの方に</p></div>
+      <div class="concern-card reveal reveal-delay-4"><span class="concern-emoji">💄</span><h3>メイクのりが悪く崩れやすい</h3><p>午後になるとメイクが崩れてしまう方に</p></div>
+      <div class="concern-card reveal reveal-delay-5"><span class="concern-emoji">🌟</span><h3>ツヤがなく疲れて見られがち</h3><p>肌にハリ・ツヤがなく、老けた印象を与えてしまう方に</p></div>
+      <div class="concern-card reveal reveal-delay-5"><span class="concern-emoji">🌸</span><h3>敏感でケアが難しい</h3><p>敏感肌で使えるスキンケアが見つからない方に</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="products pad" id="products">
+  <div class="products-header reveal">
+    <div><div class="sec-label">Product Line Up</div><h2 class="sec-title">人気商品<em>ラインナップ</em></h2></div>
+    <a href="#cta" style="font-family:var(--font-en);font-size:12px;letter-spacing:2px;color:var(--rose);text-decoration:none;border-bottom:1px solid var(--rose);padding-bottom:2px;">VIEW ALL →</a>
+  </div>
+  <div class="products-grid">
+    <div class="product-card reveal reveal-delay-1">
+      <div class="product-img product-img-1"><div class="product-badge-wrap"><span class="product-badge">Best Seller</span></div>🧴</div>
+      <div class="product-body"><div class="product-name">グロウセラム</div><div class="product-desc">美容液の王道。うるおいとツヤを同時にチャージする次世代セラム。</div><div class="product-chips"><span class="chip">保湿</span><span class="chip">ハリ</span><span class="chip">ツヤ</span></div><div style="display:flex;align-items:baseline;gap:4px"><div class="product-price">¥6,800</div><div class="product-price-tax">税込</div></div><div class="product-rating">★★★★★ 4.9</div></div>
+    </div>
+    <div class="product-card reveal reveal-delay-2">
+      <div class="product-img product-img-2"><div class="product-badge-wrap"><span class="product-badge gold">NEW</span></div>🫙</div>
+      <div class="product-body"><div class="product-name">トーナーパッド</div><div class="product-desc">拭き取り・角質ケア・水分補給を1枚で完結。朝の時短ケアに。</div><div class="product-chips"><span class="chip">角質</span><span class="chip">毛穴</span><span class="chip">うるおい</span></div><div style="display:flex;align-items:baseline;gap:4px"><div class="product-price">¥4,500</div><div class="product-price-tax">税込</div></div><div class="product-rating">★★★★★ 4.8</div></div>
+    </div>
+    <div class="product-card reveal reveal-delay-3">
+      <div class="product-img product-img-3">🎭</div>
+      <div class="product-body"><div class="product-name">水光マスクシート</div><div class="product-desc">美容液たっぷりのシートマスク。10分でモチ肌へ。週2〜3回推奨。</div><div class="product-chips"><span class="chip">透明感</span><span class="chip">保湿</span><span class="chip">ツヤ</span></div><div style="display:flex;align-items:baseline;gap:4px"><div class="product-price">¥3,200</div><div class="product-price-tax">税込</div></div><div class="product-rating">★★★★☆ 4.7</div></div>
+    </div>
+    <div class="product-card reveal reveal-delay-4">
+      <div class="product-img product-img-4">✨</div>
+      <div class="product-body"><div class="product-name">トーンアップクリーム</div><div class="product-desc">自然にトーンアップ。明るく均一な素肌へ。下地としても使用可。</div><div class="product-chips"><span class="chip">美白</span><span class="chip">トーンアップ</span></div><div style="display:flex;align-items:baseline;gap:4px"><div class="product-price">¥5,200</div><div class="product-price-tax">税込</div></div><div class="product-rating">★★★★★ 4.8</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews pad" id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-left reveal">
+      <div class="sec-label">Customer Reviews</div>
+      <h2 class="sec-title">SNSで<br><em>大人気！</em><br>リアルな<br>口コミ</h2>
+      <div class="rating-block"><div class="rating-num">4.8</div><div class="rating-stars-big">★★★★★</div><div class="rating-count">20,000+ Reviews</div></div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal reveal-delay-1"><div class="review-top"><div class="review-avatar av1">👩</div><div><div class="review-info-name">yuna_skincare</div><div class="review-info-handle">@yuna_skincare</div></div></div><div class="review-stars">★★★★★</div><p class="review-text">使い始めて2週間で肌の調子が本当に良くなった！水分量が上がって、友達に「最近肌キレイだね」って言われました✨ もう手放せないです。</p><span class="review-tag">Glow Serum</span></div>
+      <div class="review-card reveal reveal-delay-2"><div class="review-top"><div class="review-avatar av2">👩‍🦱</div><div><div class="review-info-name">miu_beauty</div><div class="review-info-handle">@miu_beauty</div></div></div><div class="review-stars">★★★★★</div><p class="review-text">トーナーパッドが大好きすぎる。朝の洗顔後にサッと拭くだけでOK。毛穴が目立たなくなってきてメイク前のスキンケアが楽しくなりました♡</p><span class="review-tag">Toner Pad</span></div>
+      <div class="review-card reveal reveal-delay-3"><div class="review-top"><div class="review-avatar av3">👩‍🦰</div><div><div class="review-info-name">hana_cosme_love</div><div class="review-info-handle">@hana_cosme_love</div></div></div><div class="review-stars">★★★★★</div><p class="review-text">敏感肌の私でも全然大丈夫でした！刺激が少なくてしっとりする。トーナーパッドは日課になってます。肌のキメが整ってきた気がする！</p><span class="review-tag">Mask Sheet</span></div>
+      <div class="review-card reveal reveal-delay-4"><div class="review-top"><div class="review-avatar av4">🧑</div><div><div class="review-info-name">hiari_skin</div><div class="review-info-handle">@hiari_skin</div></div></div><div class="review-stars">★★★★☆</div><p class="review-text">クリームのトーンアップ効果が自分で気が付くくらい明るくなりました。テクスチャーも軽くて使いやすい。リピート確定です！</p><span class="review-tag">Tone Up Cream</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="ingredients pad" id="ingredients">
+  <div class="ingredients-layout">
+    <div class="ingredient-grid reveal">
+      <div class="ingredient-card"><span class="ingredient-icon">🔬</span><h4>ナイアシンアミド</h4><p>透明感UPと美白ケアに。くすみを改善し、均一な肌色へ整えます。</p></div>
+      <div class="ingredient-card"><span class="ingredient-icon">💎</span><h4>ヒアルロン酸</h4><p>水分をしっかりキープ。肌の内側からうるおいを補給し、モチ肌へ。</p></div>
+      <div class="ingredient-card"><span class="ingredient-icon">🌿</span><h4>ツボクサエキス</h4><p>肌の再生をサポート。敏感肌にも優しく、バリア機能を高めます。</p></div>
+      <div class="ingredient-card"><span class="ingredient-icon">⚗️</span><h4>グルタチオン</h4><p>ツヤ・ハリケアの注目成分。肌を内側から輝かせる最新成分。</p></div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="sec-label">Ingredient</div>
+      <h2 class="sec-title">こだわりの成分と、<br><em>確かな信頼性</em></h2>
+      <p class="sec-sub">韓国の美容研究所と共同開発。肌科学に基づいた厳選成分を配合し、毎日のケアで実感できる美肌へ導きます。</p>
+      <div class="trust-section">
+        <div class="trust-item"><span class="trust-check">✓</span>パラベンフリー</div>
+        <div class="trust-item"><span class="trust-check">✓</span>アルコールフリー</div>
+        <div class="trust-item"><span class="trust-check">✓</span>鉱物油フリー</div>
+        <div class="trust-item"><span class="trust-check">✓</span>人工香料フリー</div>
+        <div class="trust-item"><span class="trust-check">✓</span>韓国美容研究所監修・共同開発</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner">
+    <div class="cta-left reveal">
+      <div class="sec-label">Limited Offer</div>
+      <h2 class="sec-title">今すぐ、あなたも<br><em>水光肌体験を。</em></h2>
+      <p class="sec-sub">7日間 水光肌体験セット。人気のアイテムをお得にまとめて試せる初回限定プランです。</p>
+      <div class="cta-perks">
+        <div class="cta-perk"><div class="perk-icon">🚚</div>送料無料でお届け</div>
+        <div class="cta-perk"><div class="perk-icon">🔄</div>30日間返金保証付き</div>
+        <div class="cta-perk"><div class="perk-icon">🛡️</div>安心の国内正規発送</div>
+        <div class="cta-perk"><div class="perk-icon">📦</div>最短翌日お届け</div>
+      </div>
+    </div>
+    <div class="cta-right reveal reveal-delay-2">
+      <div class="price-card">
+        <div class="price-card-label">First Time Offer</div>
+        <div class="price-original">通常価格 ¥7,960（税込）</div>
+        <div class="price-badge">初回限定 50% OFF</div>
+        <div class="price-main"><small>¥</small>3,980</div>
+        <div class="price-tax">税込・送料無料 / 5月31日まで</div>
+        <div class="price-perks">
+          <div class="price-perk">グロウセラム（7日分）</div>
+          <div class="price-perk">トーナーパッド（5枚）</div>
+          <div class="price-perk">水光マスクシート（2枚）</div>
+          <div class="price-perk">ミニトーンアップクリーム</div>
+        </div>
+        <a href="#" class="btn-cta">初回限定セットを購入する</a>
+        <div class="price-deadline">※ 初回限定価格は予告なく終了する場合があります</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">LUMIÈRE SKIN</div>
+      <div class="footer-logo-sub">Premium Korean Skincare</div>
+      <p class="footer-desc">韓国発プレミアムスキンケアブランド。すべての人に輝く素肌を届けるために。</p>
+    </div>
+    <div class="footer-links-wrap">
+      <div class="footer-col"><h4>Products</h4><a href="#">グロウセラム</a><a href="#">トーナーパッド</a><a href="#">水光マスクシート</a><a href="#">トーンアップクリーム</a></div>
+      <div class="footer-col"><h4>Brand</h4><a href="#">ブランドについて</a><a href="#">成分へのこだわり</a><a href="#">お客様の声</a><a href="#">メディア掲載</a></div>
+      <div class="footer-col"><h4>Support</h4><a href="#">よくある質問</a><a href="#">お問い合わせ</a><a href="#">特定商取引法</a><a href="#">プライバシーポリシー</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2024 LUMIÈRE SKIN. All Rights Reserved.</div>
+    <div class="footer-sns"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">YouTube</a></div>
+  </div>
+</footer>
+
+<script>
+let pct=0;
+const loaderEl=document.getElementById('loader');
+const pctEl=document.getElementById('loaderPct');
+const iv=setInterval(()=>{
+  pct+=Math.random()*15;
+  if(pct>=100){pct=100;clearInterval(iv);setTimeout(()=>loaderEl.classList.add('hide'),300);}
+  pctEl.textContent=Math.floor(pct)+'%';
+},80);
+
+const cursor=document.getElementById('cursor');
+const follower=document.getElementById('cursorFollower');
+let mx=0,my=0,fx=0,fy=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx-5+'px';cursor.style.top=my-5+'px';
+});
+(function af(){
+  fx+=(mx-fx-18)*0.12;fy+=(my-fy-18)*0.12;
+  follower.style.left=fx+'px';follower.style.top=fy+'px';
+  requestAnimationFrame(af);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2.5)';follower.style.width='56px';follower.style.height='56px';follower.style.opacity='0.3';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';follower.style.width='36px';follower.style.height='36px';follower.style.opacity='0.6';});
+});
+
+const header=document.getElementById('header');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>60)header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+});
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
